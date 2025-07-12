@@ -1,0 +1,119 @@
+<div class="container my-5 p-4 bg-white rounded shadow">
+  <h1 class="text-center mb-5 fw-bold">Welcome to your Dashboard!</h1>
+  <div class="row g-4 justify-content-center mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
+        <div class="card-body text-center">
+          <h2 class="card-title">Profile</h2>
+          <p class="card-text">View and edit your profile information.</p>
+          <button class="btn btn-light fw-bold" (click)="onProfileClick()">Go to Profile</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
+        <div class="card-body text-center">
+          <h2 class="card-title">Settings</h2>
+          <p class="card-text">Manage your account settings and preferences.</p>
+          <button class="btn btn-light fw-bold" (click)="onSettingsClick()">Go to Settings</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
+        <div class="card-body text-center">
+          <h2 class="card-title">Tasks</h2>
+          <p class="card-text">View, add, update, and delete your tasks.</p>
+          <button class="btn btn-light fw-bold" (click)="toggleTasks()">View Tasks</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showTasks" class="mt-5">
+    <h2 class="text-primary mb-4">Your Tasks</h2>
+    <button class="btn btn-primary mb-3" (click)="openCreateModal()">Create Task</button>
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Completed</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.dueDate }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.status }}</td>
+            <td>
+              <input class="form-check-input" type="checkbox" [checked]="task.isCompleted" disabled />
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editTask(task)">Edit</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!tasks.length" class="text-center text-muted mt-4">No tasks yet. Add your first task!</div>
+
+    <!-- ng-bootstrap Modal for Create/Edit Task -->
+    <ng-template #taskModal>
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editingTask ? 'Update Task' : 'Create Task' }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <form (ngSubmit)="submitTask()" #taskForm="ngForm" autocomplete="off">
+        <div class="modal-body row g-3">
+          <div class="col-12 col-md-6">
+            <input name="title" [(ngModel)]="form.title" required placeholder="Title" class="form-control" />
+          </div>
+          <div class="col-12 col-md-6">
+            <input name="description" [(ngModel)]="form.description" required placeholder="Description" class="form-control" />
+          </div>
+          <div class="col-12 col-md-6">
+            <input name="dueDate" [(ngModel)]="form.dueDate" type="date" required class="form-control" />
+          </div>
+          <div class="col-12 col-md-6">
+            <select name="priority" [(ngModel)]="form.priority" class="form-select">
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6">
+            <input name="category" [(ngModel)]="form.category" placeholder="Category" class="form-control" />
+          </div>
+          <div class="col-12 col-md-6">
+            <select name="status" [(ngModel)]="form.status" class="form-select">
+              <option>Pending</option>
+              <option>In Progress</option>
+              <option>Completed</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="isCompleted" [(ngModel)]="form.isCompleted" id="isCompleted" />
+              <label class="form-check-label" for="isCompleted">Completed</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" [disabled]="!taskForm.form.valid">{{ editingTask ? 'Update' : 'Create' }} Task</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>

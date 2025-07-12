@@ -28,5 +28,8 @@ export class AuthService {
    
   }
 
-  
+  //logout (clear JWT cookie)
+  async logout(res: any): Promise<void> {
+    res.clearCookie('jwt'); // Clear the JWT cookie
+  }
 }
