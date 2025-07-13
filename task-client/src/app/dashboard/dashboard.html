@@ -86,35 +86,41 @@
       <form (ngSubmit)="submitTask()" #taskForm="ngForm" autocomplete="off">
         <div class="modal-body row g-3">
           <div class="col-12 col-md-6">
-            <input name="title" [(ngModel)]="form.title" required placeholder="Title" class="form-control" />
+            <label for="modal-title" class="form-label">Title</label>
+            <input id="modal-title" name="title" [(ngModel)]="form.title" required class="form-control" />
           </div>
           <div class="col-12 col-md-6">
-            <input name="description" [(ngModel)]="form.description" required placeholder="Description" class="form-control" />
+            <label for="modal-description" class="form-label">Description</label>
+            <input id="modal-description" name="description" [(ngModel)]="form.description" required class="form-control" />
           </div>
           <div class="col-12 col-md-6">
-            <input name="dueDate" [(ngModel)]="form.dueDate" type="date" required class="form-control" />
+            <label for="modal-dueDate" class="form-label">Due Date</label>
+            <input id="modal-dueDate" name="dueDate" [(ngModel)]="form.dueDate" type="date" required class="form-control" />
           </div>
           <div class="col-12 col-md-6">
-            <select name="priority" [(ngModel)]="form.priority" class="form-select">
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
+            <label for="modal-priority" class="form-label">Priority</label>
+            <select id="modal-priority" name="priority" [(ngModel)]="form.priority" class="form-select">
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
             </select>
           </div>
           <div class="col-12 col-md-6">
-            <input name="category" [(ngModel)]="form.category" placeholder="Category" class="form-control" />
+            <label for="modal-category" class="form-label">Task Category</label>
+            <input id="modal-category" name="category" [(ngModel)]="form.category" class="form-control" />
           </div>
           <div class="col-12 col-md-6">
-            <select name="status" [(ngModel)]="form.status" class="form-select">
-              <option>Pending</option>
-              <option>In Progress</option>
-              <option>Completed</option>
+            <label for="modal-status" class="form-label">Status</label>
+            <select id="modal-status" name="status" [(ngModel)]="form.status" class="form-select">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
             </select>
           </div>
           <div class="col-12">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="isCompleted" [(ngModel)]="form.isCompleted" id="isCompleted" />
-              <label class="form-check-label" for="isCompleted">Completed</label>
+              <input class="form-check-input" type="checkbox" name="isCompleted" [(ngModel)]="form.isCompleted" id="modal-isCompleted" />
+              <label class="form-check-label" for="modal-isCompleted">Completed</label>
             </div>
           </div>
         </div>

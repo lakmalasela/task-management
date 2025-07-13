@@ -22,33 +22,52 @@ form {
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
   justify-content: center;
   margin-bottom: 1rem;
 }
 
-.form-row input,
-.form-row select {
+.form-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-field input,
+.form-field select {
   padding: 0.7rem 1rem;
   border: 1.5px solid #ccc;
   border-radius: 0.5rem;
   font-size: 1rem;
-  min-width: 140px;
   transition: border 0.2s;
 }
 
-.form-row input:focus,
-.form-row select:focus {
+.form-field input:focus,
+.form-field select:focus {
   border-color: #7702ff;
   outline: none;
+  box-shadow: 0 0 0 2px rgba(119, 2, 255, 0.1);
 }
 
-.form-row label {
-  display: flex;
+.form-field input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.form-field label:has(input[type="checkbox"]) {
+  flex-direction: row;
   align-items: center;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #555;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .form-actions {
