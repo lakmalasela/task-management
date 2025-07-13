@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { Login } from './login/login';
+import { Signup } from './signup/signup';
 import { Dashboard } from './dashboard/dashboard';
 import { AuthInterceptor } from './auth.interceptor';
 import { Task } from './task/task';
@@ -15,6 +16,7 @@ import { Task } from './task/task';
   declarations: [
     App,
     Login,
+    Signup,
     Dashboard,
     Task
   ],

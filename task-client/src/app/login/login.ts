@@ -36,6 +36,13 @@ export class Login {
     });
   }
 
+  onInputChange() {
+    // Clear error when user starts typing
+    if (this.error) {
+      this.error = null;
+    }
+  }
+
   ngOnDestroy() {
     if (this.loginSub) {
       this.loginSub.unsubscribe();

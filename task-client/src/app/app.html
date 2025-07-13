@@ -1,10 +1,1 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-primary" href="#">TaskApp</a>
-    <div class="d-flex align-items-center ms-auto">
-      <span class="me-3 fw-semibold" *ngIf="isLoggedIn()">👤 {{ getUsername() }}</span>
-      <button *ngIf="isLoggedIn()" class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
-    </div>
-  </div>
-</nav>
 <router-outlet></router-outlet>

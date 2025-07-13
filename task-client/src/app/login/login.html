@@ -4,15 +4,18 @@
     <h2>Login</h2>
     <div class="form-group">
       <label for="username">Username</label>
-      <input id="username" name="username" type="text" [(ngModel)]="username" required [disabled]="loading" />
+      <input id="username" name="username" type="text" [(ngModel)]="username" (input)="onInputChange()" required [disabled]="loading" />
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input id="password" name="password" type="password" [(ngModel)]="password" required [disabled]="loading" />
+      <input id="password" name="password" type="password" [(ngModel)]="password" (input)="onInputChange()" required [disabled]="loading" />
     </div>
     <button type="submit" [disabled]="loading || !loginForm.form.valid">
       {{ loading ? 'Logging in...' : 'Login' }}
     </button>
     <div class="error" *ngIf="error">{{ error }}</div>
+    <div class="signup-link">
+      Don't have an account? <a routerLink="/signup">Please sign up</a>
+    </div>
   </form>
 </div>

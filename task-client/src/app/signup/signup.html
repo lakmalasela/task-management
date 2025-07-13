@@ -1,0 +1,111 @@
+<!-- Signup Form -->
+<div class="signup-container">
+  <div class="signup-card">
+    <div class="signup-header">
+      <h2>Create Account</h2>
+      <p>Join us and start managing your tasks efficiently</p>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm" autocomplete="off">
+      <!-- Row 1: Username and Email -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            id="username" 
+            name="username" 
+            type="text" 
+            [(ngModel)]="username" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your username" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            id="email" 
+            name="email" 
+            type="email" 
+            [(ngModel)]="email" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your email" />
+        </div>
+      </div>
+
+      <!-- Row 2: First Name and Last Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input 
+            id="firstName" 
+            name="firstName" 
+            type="text" 
+            [(ngModel)]="firstName" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your first name" />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input 
+            id="lastName" 
+            name="lastName" 
+            type="text" 
+            [(ngModel)]="lastName" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your last name" />
+        </div>
+      </div>
+
+      <!-- Row 3: Password and Address -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            id="password" 
+            name="password" 
+            type="password" 
+            [(ngModel)]="password" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your password" />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea 
+            id="address" 
+            name="address" 
+            [(ngModel)]="address" 
+            (input)="onInputChange()" 
+            required 
+            [disabled]="loading"
+            placeholder="Enter your full address"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="loading || !signupForm.form.valid" class="submit-btn">
+        <span *ngIf="!loading">Create Account</span>
+        <span *ngIf="loading" class="loading-spinner">
+          <i class="spinner"></i>
+          Creating Account...
+        </span>
+      </button>
+
+      <div class="error" *ngIf="error">
+        <i class="error-icon">⚠</i>
+        {{ error }}
+      </div>
+
+      <div class="login-link">
+        Already have an account? <a routerLink="/login">Login here</a>
+      </div>
+    </form>
+  </div>
+</div> 

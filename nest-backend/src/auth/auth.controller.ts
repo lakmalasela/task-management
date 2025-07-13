@@ -1,4 +1,4 @@
-import { Controller, Post, Body,Get,Query,UseGuards,Req,Res,  HttpStatus, } from '@nestjs/common';
+import { Controller, Post, Body,Get,Query,UseGuards,Req,Res,  HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { GoogleAuthGuard } from './auth/guards/google-auth.guard'; // Google Auth Guard
@@ -13,7 +13,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginUserDto) {
     const user = await this.authService.validateUser(loginDto.username, loginDto.password,'User');
-    if (!user) throw new Error('Invalid credentials');
+    if (!user || null) throw new UnauthorizedException('Invalid credentials');
     return this.authService.login(user);
   }
 

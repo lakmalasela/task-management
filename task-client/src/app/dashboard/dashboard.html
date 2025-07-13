@@ -1,3 +1,12 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-primary" href="#">TaskApp</a>
+    <div class="d-flex align-items-center ms-auto">
+      <span class="me-3 fw-semibold" *ngIf="isLoggedIn()">👤 {{ getUsername() }}</span>
+      <button *ngIf="isLoggedIn()" class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
 <div class="container my-5 p-4 bg-white rounded shadow">
   <h1 class="text-center mb-5 fw-bold">Welcome to your Dashboard!</h1>
   <div class="row g-4 justify-content-center mb-4">
@@ -6,7 +15,7 @@
         <div class="card-body text-center">
           <h2 class="card-title">Profile</h2>
           <p class="card-text">View and edit your profile information.</p>
-          <button class="btn btn-light fw-bold" (click)="onProfileClick()">Go to Profile</button>
+          <button class="btn btn-light fw-bold" (click)="onProfileClick()">👤 Go to Profile</button>
         </div>
       </div>
     </div>
@@ -15,7 +24,7 @@
         <div class="card-body text-center">
           <h2 class="card-title">Settings</h2>
           <p class="card-text">Manage your account settings and preferences.</p>
-          <button class="btn btn-light fw-bold" (click)="onSettingsClick()">Go to Settings</button>
+          <button class="btn btn-light fw-bold" (click)="onSettingsClick()">⚙️ Go to Settings</button>
         </div>
       </div>
     </div>
@@ -24,7 +33,7 @@
         <div class="card-body text-center">
           <h2 class="card-title">Tasks</h2>
           <p class="card-text">View, add, update, and delete your tasks.</p>
-          <button class="btn btn-light fw-bold" (click)="toggleTasks()">View Tasks</button>
+          <button class="btn btn-light fw-bold" (click)="toggleTasks()">📝 View Tasks</button>
         </div>
       </div>
     </div>

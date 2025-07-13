@@ -1,6 +1,9 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, Inject } from '@angular/core';
 import { TaskItem } from '../task/task';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +31,7 @@ export class Dashboard {
   editingTask: TaskItem | null = null;
   form: TaskItem = this.getEmptyTask();
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   toggleTasks() {
     this.showTasks = !this.showTasks;
@@ -92,5 +95,27 @@ export class Dashboard {
   }
   onSettingsClick() {
     alert('Settings clicked!');
+  }
+
+  isLoggedIn(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('auth_token');
+    }
+    return false;
+  }
+
+  getUsername(): string {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('username') || 'User';
+    }
+    return 'User';
+  }
+
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('username');
+    }
+    this.router.navigate(['/login']);
   }
 }
