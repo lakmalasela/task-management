@@ -6,7 +6,7 @@ export interface TaskItem {
   title: string;
   description: string;
   dueDate: string;
-  isCompleted: boolean;
+  // isCompleted: boolean;
   priority: TaskPriority;
   category: TaskCategory;
   status: TaskStatus;
@@ -56,11 +56,11 @@ export class Task {
       title: '',
       description: '',
       dueDate: '',
-      isCompleted: false,
+      // isCompleted: false,
       priority: TaskPriority.MEDIUM,
       category: TaskCategory.Personal,
       status: TaskStatus.Pending,
-      userId: '2c066348-f04f-49f2-8175-27248ad463df',
+      userId: '',
     };
   }
 

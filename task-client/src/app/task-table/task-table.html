@@ -25,7 +25,6 @@
           <th>Priority</th>
           <th>Category</th>
           <th>Status</th>
-          <th>Completed</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -40,9 +39,6 @@
           <td>{{ task.category }}</td>
           <td>
             <span [class]="getStatusClass(task.status)">{{ task.status }}</span>
-          </td>
-          <td>
-            <input class="form-check-input" type="checkbox" [checked]="task.isCompleted" disabled />
           </td>
           <td>
             <div class="btn-group btn-group-sm" role="group">

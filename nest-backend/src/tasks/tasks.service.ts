@@ -40,15 +40,19 @@ export class TasksService {
   }
 
   //all tasks
-  async findAll(paginationDto?: PaginationDto): Promise<{ tasks: Task[]; total: number; page: number; limit: number; totalPages: number }> {
+  async findAll(paginationDto?: PaginationDto, userId?: string): Promise<{ tasks: Task[]; total: number; page: number; limit: number; totalPages: number }> {
     try {
       const { page = 1, limit = 10 } = paginationDto || {};
       const skip = (page - 1) * limit;
       
+      const whereCondition = userId ? { user: { id: userId } } : {};
+      
       const [tasks, total] = await this.taskRepository.findAndCount({
+        where: whereCondition,
         skip,
         take: limit,
         order: { created_at: 'DESC' },
+        relations: ['user'],
         // where: { status: Not(Status.DELETED) }
       });
 

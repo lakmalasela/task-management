@@ -19,17 +19,17 @@ export class Dashboard {
   showTasks = false;
   refreshTrigger: number = 0;
   tasks: TaskItem[] = [
-    {
-      id: '1',
-      title: 'Work-out',
-      description: 'Go to the gym',
-      dueDate: '2025-06-08',
-      isCompleted: false,
-      priority: TaskPriority.HIGH,
-      category: TaskCategory.Personal,
-      status: TaskStatus.Pending,
-      userId: '2c066348-f04f-49f2-8175-27248ad463df'
-    }
+    // {
+    //   id: '1',
+    //   title: 'Work-out',
+    //   description: 'Go to the gym',
+    //   dueDate: '2025-06-08',
+    //   isCompleted: false,
+    //   priority: TaskPriority.HIGH,
+    //   category: TaskCategory.Personal,
+    //   status: TaskStatus.Pending,
+    //   userId: '2c066348-f04f-49f2-8175-27248ad463df'
+    // }
   ];
   editingTask: TaskItem | null = null;
   form: TaskItem = this.getEmptyTask();
@@ -108,15 +108,15 @@ export class Dashboard {
       title: '',
       description: '',
       dueDate: '',
-      isCompleted: false,
       priority: TaskPriority.MEDIUM,
       category: TaskCategory.Personal,
       status: TaskStatus.Pending,
-      userId: '2c066348-f04f-49f2-8175-27248ad463df',
+      userId: this.getUserId(),
     };
   }
 
   submitTask() {
+    this.form.userId = this.getUserId(); // Ensure userId is set before submit
     if (this.editingTask && this.editingTask.id) {
       // Update existing task
       this.taskService.updateTask(this.editingTask.id, this.form).subscribe({
@@ -199,10 +199,18 @@ export class Dashboard {
     return 'User';
   }
 
+  getUserId(): string {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('userId') || '';
+    }
+    return '';
+  }
+
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('username');
+      localStorage.removeItem('userId');
     }
     this.router.navigate(['/login']);
   }

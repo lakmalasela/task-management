@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Request } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -18,8 +18,9 @@ export class TasksController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.tasksService.findAll(paginationDto);
+  findAll(@Query() paginationDto: PaginationDto, @Request() req) {
+    const userId = req.user?.userId;
+    return this.tasksService.findAll(paginationDto, userId);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -27,6 +27,9 @@ export class Auth {
           if (res.username) {
             localStorage.setItem('username', res.username);
           }
+          if (res.userId) {
+            localStorage.setItem('userId', res.userId);
+          }
         }
       }),
       catchError((err: any) => {
