@@ -122,7 +122,7 @@
               [class.is-invalid]="taskForm.form.get('priority')?.invalid && taskForm.form.get('priority')?.touched"
             >
               <option value="">Select priority</option>
-              <option *ngFor="let priority of getTaskPriorities()" [value]="priority.value">{{ priority.label }}</option>
+              <option *ngFor="let priority of taskPriorities" [value]="priority.value">{{ priority.label }}</option>
             </select>
             <div class="invalid-feedback" *ngIf="taskForm.form.get('priority')?.invalid && taskForm.form.get('priority')?.touched">
               <div *ngIf="taskForm.form.get('priority')?.errors?.['required']">Priority is required</div>
@@ -139,7 +139,7 @@
               [class.is-invalid]="taskForm.form.get('category')?.invalid && taskForm.form.get('category')?.touched"
             >
               <option value="">Select category</option>
-              <option *ngFor="let category of getTaskCategories()" [value]="category.value">{{ category.label }}</option>
+              <option *ngFor="let category of taskCategories" [value]="category.value">{{ category.label }}</option>
             </select>
             <div class="invalid-feedback" *ngIf="taskForm.form.get('category')?.invalid && taskForm.form.get('category')?.touched">
               <div *ngIf="taskForm.form.get('category')?.errors?.['required']">Category is required</div>
@@ -156,7 +156,7 @@
               [class.is-invalid]="taskForm.form.get('status')?.invalid && taskForm.form.get('status')?.touched"
             >
               <option value="">Select status</option>
-              <option *ngFor="let status of getTaskStatuses()" [value]="status.value">{{ status.label }}</option>
+              <option *ngFor="let status of taskStatuses" [value]="status.value">{{ status.label }}</option>
             </select>
             <div class="invalid-feedback" *ngIf="taskForm.form.get('status')?.invalid && taskForm.form.get('status')?.touched">
               <div *ngIf="taskForm.form.get('status')?.errors?.['required']">Status is required</div>

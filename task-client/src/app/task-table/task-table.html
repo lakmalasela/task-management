@@ -32,7 +32,7 @@
         <tr *ngFor="let task of tasks">
           <td>{{ task.title }}</td>
           <td>{{ task.description }}</td>
-          <td>{{ task.dueDate | date:'shortDate' }}</td>
+          <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
           <td>
             <span [class]="getPriorityClass(task.priority)">{{ task.priority }}</span>
           </td>

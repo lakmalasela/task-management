@@ -57,27 +57,10 @@ export class Dashboard {
   TaskStatus = TaskStatus;
   TaskPriority = TaskPriority;
 
-  // Get enum values as arrays for use in templates
-  getTaskCategories(): { value: TaskCategory, label: string }[] {
-    return Object.values(TaskCategory).map(category => ({
-      value: category,
-      label: category
-    }));
-  }
-
-  getTaskStatuses(): { value: TaskStatus, label: string }[] {
-    return Object.values(TaskStatus).map(status => ({
-      value: status,
-      label: status
-    }));
-  }
-
-  getTaskPriorities(): { value: TaskPriority, label: string }[] {
-    return Object.values(TaskPriority).map(priority => ({
-      value: priority,
-      label: priority
-    }));
-  }
+  // Refactored: Use properties instead of methods for categories, statuses, priorities
+  taskCategories = Object.values(TaskCategory).map(category => ({ value: category, label: category }));
+  taskStatuses = Object.values(TaskStatus).map(status => ({ value: status, label: status }));
+  taskPriorities = Object.values(TaskPriority).map(priority => ({ value: priority, label: priority }));
 
   constructor(
     private modalService: NgbModal, 
@@ -170,7 +153,12 @@ export class Dashboard {
 
   editTask(task: TaskItem) {
     this.editingTask = task;
-    this.form = { ...task };
+    // Normalize dueDate to YYYY-MM-DD for input type="date"
+    let dueDate = task.dueDate;
+    if (dueDate && dueDate.length > 10) {
+      dueDate = dueDate.slice(0, 10);
+    }
+    this.form = { ...task, dueDate };
     this.modalRef = this.modalService.open(this.taskModal, { centered: true });
   }
 
