@@ -44,9 +44,9 @@ export class Dashboard {
   getDayClass(date: any): string {
     // date: {year, month, day}
     const dayStr = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`;
-    // Compare only the date part (YYYY-MM-DD) of dueDate
+    // Exclude Deleted tasks
     const completed = this.tasks.some(t => (t.dueDate?.slice(0, 10) === dayStr) && t.status === this.TaskStatus.Completed);
-    const due = this.tasks.some(t => (t.dueDate?.slice(0, 10) === dayStr) && t.status !== this.TaskStatus.Completed);
+    const due = this.tasks.some(t => (t.dueDate?.slice(0, 10) === dayStr) && t.status !== this.TaskStatus.Completed && t.status !== this.TaskStatus.Deleted);
     if (completed) return 'bg-success text-white rounded-circle';
     if (due) return 'bg-danger text-white rounded-circle';
     return '';
@@ -246,8 +246,8 @@ export class Dashboard {
 
   getTasksForDate(date: any): TaskItem[] {
     const dayStr = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`;
-    // Compare only the date part (YYYY-MM-DD) of dueDate
-    return this.tasks.filter(t => t.dueDate?.slice(0, 10) === dayStr);
+    // Exclude Deleted tasks
+    return this.tasks.filter(t => t.dueDate?.slice(0, 10) === dayStr && t.status !== this.TaskStatus.Deleted);
   }
 
   getTasksForDateTooltip(date: any): string {
