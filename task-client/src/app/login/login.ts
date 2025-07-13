@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.scss'
 })
 export class Login {
-  username = '';
+  email = '';
   password = '';
   error: string | null = null;
   loading = false;
@@ -24,7 +24,7 @@ export class Login {
     if (this.loginSub) {
       this.loginSub.unsubscribe();
     }
-    this.loginSub = this.auth.login(this.username, this.password).subscribe({
+    this.loginSub = this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.loading = false;
         this.router.navigate(['/dashboard']);

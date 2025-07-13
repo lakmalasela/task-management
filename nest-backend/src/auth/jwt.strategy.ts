@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     console.log('JWT Payload:', payload); // Debug log to see the decoded JWT payload
      return {
         userId: payload.sub,
-        username: payload.username,
+        username: payload.email,
        
       };
 

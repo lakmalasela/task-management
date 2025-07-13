@@ -19,8 +19,8 @@ interface SignupData {
 export class Auth {
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/login`, { username, password }).pipe(
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/auth/login`, { email, password }).pipe(
       tap((res: any) => {
         if (res && res.access_token) {
           localStorage.setItem('auth_token', res.access_token);
