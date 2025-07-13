@@ -48,15 +48,15 @@
                 (click)="onEditTask(task)"
                 [disabled]="task.status === TaskStatus.Deleted"
                 title="Edit task">
-                <i class="bi bi-pencil"></i>
+                <i class="ri-edit-box-fill"></i>
               </button>
               <button 
                 type="button" 
-                class="btn btn-outline-danger" 
+                class="btn btn-outline-danger ms-1" 
                 (click)="onDeleteTask(task)"
                 [disabled]="task.status === TaskStatus.Deleted"
                 title="Delete task">
-                <i class="bi bi-trash"></i>
+                <i class="ri-delete-bin-fill"></i>
               </button>
             </div>
           </td>

@@ -206,6 +206,11 @@ export class Dashboard {
     return '';
   }
 
+  getMinDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('auth_token');

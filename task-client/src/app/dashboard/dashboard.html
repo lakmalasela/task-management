@@ -53,39 +53,119 @@
       <form (ngSubmit)="submitTask()" #taskForm="ngForm" autocomplete="off">
         <div class="modal-body row g-3">
           <div class="col-12 col-md-6">
-            <label for="modal-title" class="form-label">Title</label>
-            <input id="modal-title" name="title" [(ngModel)]="form.title" required class="form-control" />
+            <label for="modal-title" class="form-label">Title <span class="text-danger">*</span></label>
+            <input 
+              id="modal-title" 
+              name="title" 
+              [(ngModel)]="form.title" 
+              required 
+              minlength="3"
+              maxlength="100"
+              pattern="^[a-zA-Z0-9\s\-_.,!?()]+$"
+              class="form-control" 
+              [class.is-invalid]="taskForm.form.get('title')?.invalid && taskForm.form.get('title')?.touched"
+              placeholder="Enter task title"
+            />
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('title')?.invalid && taskForm.form.get('title')?.touched">
+              <div *ngIf="taskForm.form.get('title')?.errors?.['required']">Title is required</div>
+              <div *ngIf="taskForm.form.get('title')?.errors?.['minlength']">Title must be at least 3 characters long</div>
+              <div *ngIf="taskForm.form.get('title')?.errors?.['maxlength']">Title cannot exceed 100 characters</div>
+              <div *ngIf="taskForm.form.get('title')?.errors?.['pattern']">Title contains invalid characters</div>
+            </div>
           </div>
           <div class="col-12 col-md-6">
-            <label for="modal-description" class="form-label">Description</label>
-            <input id="modal-description" name="description" [(ngModel)]="form.description" required class="form-control" />
+            <label for="modal-description" class="form-label">Description <span class="text-danger">*</span></label>
+            <textarea 
+              id="modal-description" 
+              name="description" 
+              [(ngModel)]="form.description" 
+              required 
+              minlength="10"
+              maxlength="500"
+              rows="3"
+              class="form-control" 
+              [class.is-invalid]="taskForm.form.get('description')?.invalid && taskForm.form.get('description')?.touched"
+              placeholder="Enter task description"
+            ></textarea>
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('description')?.invalid && taskForm.form.get('description')?.touched">
+              <div *ngIf="taskForm.form.get('description')?.errors?.['required']">Description is required</div>
+              <div *ngIf="taskForm.form.get('description')?.errors?.['minlength']">Description must be at least 10 characters long</div>
+              <div *ngIf="taskForm.form.get('description')?.errors?.['maxlength']">Description cannot exceed 500 characters</div>
+            </div>
           </div>
           <div class="col-12 col-md-6">
-            <label for="modal-dueDate" class="form-label">Due Date</label>
-            <input id="modal-dueDate" name="dueDate" [(ngModel)]="form.dueDate" type="date" required class="form-control" />
+            <label for="modal-dueDate" class="form-label">Due Date <span class="text-danger">*</span></label>
+            <input 
+              id="modal-dueDate" 
+              name="dueDate" 
+              [(ngModel)]="form.dueDate" 
+              type="date" 
+              required 
+              [min]="getMinDate()"
+              class="form-control" 
+              [class.is-invalid]="taskForm.form.get('dueDate')?.invalid && taskForm.form.get('dueDate')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('dueDate')?.invalid && taskForm.form.get('dueDate')?.touched">
+              <div *ngIf="taskForm.form.get('dueDate')?.errors?.['required']">Due date is required</div>
+              <div *ngIf="taskForm.form.get('dueDate')?.errors?.['min']">Due date cannot be in the past</div>
+            </div>
+            <small class="form-text text-muted">Cannot select past dates</small>
           </div>
           <div class="col-12 col-md-6">
-            <label for="modal-priority" class="form-label">Priority</label>
-            <select id="modal-priority" name="priority" [(ngModel)]="form.priority" class="form-select">
+            <label for="modal-priority" class="form-label">Priority <span class="text-danger">*</span></label>
+            <select 
+              id="modal-priority" 
+              name="priority" 
+              [(ngModel)]="form.priority" 
+              required
+              class="form-select"
+              [class.is-invalid]="taskForm.form.get('priority')?.invalid && taskForm.form.get('priority')?.touched"
+            >
+              <option value="">Select priority</option>
               <option *ngFor="let priority of getTaskPriorities()" [value]="priority.value">{{ priority.label }}</option>
             </select>
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('priority')?.invalid && taskForm.form.get('priority')?.touched">
+              <div *ngIf="taskForm.form.get('priority')?.errors?.['required']">Priority is required</div>
+            </div>
           </div>
           <div class="col-12 col-md-6">
-            <label for="modal-category" class="form-label">Task Category</label>
-            <select id="modal-category" name="category" [(ngModel)]="form.category" class="form-select">
+            <label for="modal-category" class="form-label">Task Category <span class="text-danger">*</span></label>
+            <select 
+              id="modal-category" 
+              name="category" 
+              [(ngModel)]="form.category" 
+              required
+              class="form-select"
+              [class.is-invalid]="taskForm.form.get('category')?.invalid && taskForm.form.get('category')?.touched"
+            >
+              <option value="">Select category</option>
               <option *ngFor="let category of getTaskCategories()" [value]="category.value">{{ category.label }}</option>
             </select>
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('category')?.invalid && taskForm.form.get('category')?.touched">
+              <div *ngIf="taskForm.form.get('category')?.errors?.['required']">Category is required</div>
+            </div>
           </div>
           <div class="col-12 col-md-6">
-            <label for="modal-status" class="form-label">Status</label>
-            <select id="modal-status" name="status" [(ngModel)]="form.status" class="form-select">
+            <label for="modal-status" class="form-label">Status <span class="text-danger">*</span></label>
+            <select 
+              id="modal-status" 
+              name="status" 
+              [(ngModel)]="form.status" 
+              required
+              class="form-select"
+              [class.is-invalid]="taskForm.form.get('status')?.invalid && taskForm.form.get('status')?.touched"
+            >
+              <option value="">Select status</option>
               <option *ngFor="let status of getTaskStatuses()" [value]="status.value">{{ status.label }}</option>
             </select>
+            <div class="invalid-feedback" *ngIf="taskForm.form.get('status')?.invalid && taskForm.form.get('status')?.touched">
+              <div *ngIf="taskForm.form.get('status')?.errors?.['required']">Status is required</div>
+            </div>
           </div>
           
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" [disabled]="!taskForm.form.valid">{{ editingTask ? 'Update' : 'Create' }} Task</button>
+          <button type="submit" class="btn btn-success" [disabled]="!taskForm.form.valid || taskForm.form.pristine">{{ editingTask ? 'Update' : 'Create' }} Task</button>
           <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
         </div>
       </form>
