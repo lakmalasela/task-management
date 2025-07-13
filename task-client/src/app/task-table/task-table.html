@@ -1,4 +1,18 @@
 <div class="task-table-container">
+  <!-- Search Field -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        (input)="onSearch()"
+        aria-label="Search tasks"
+      />
+    </div>
+  </div>
   <!-- Loading State -->
   <div *ngIf="loading" class="text-center py-4">
     <div class="spinner-border text-primary" role="status">

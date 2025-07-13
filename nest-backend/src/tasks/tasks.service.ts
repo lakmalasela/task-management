@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Not } from 'typeorm';
+import { Repository, Not, ILike } from 'typeorm';
 import { Task } from './entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -42,10 +42,22 @@ export class TasksService {
   //all tasks
   async findAll(paginationDto?: PaginationDto, userId?: string): Promise<{ tasks: Task[]; total: number; page: number; limit: number; totalPages: number }> {
     try {
-      const { page = 1, limit = 10 } = paginationDto || {};
+      const { page = 1, limit = 10, search } = paginationDto || {};
       const skip = (page - 1) * limit;
       
-      const whereCondition = userId ? { user: { id: userId } } : {};
+      let whereCondition: any = {};
+      if (userId) {
+        whereCondition.user = { id: userId };
+      }
+      if (search) {
+        whereCondition = [
+          { ...whereCondition, title: ILike(`%${search}%`) },
+          { ...whereCondition, description: ILike(`%${search}%`) },
+          { ...whereCondition, category: ILike(`%${search}%`) },
+          { ...whereCondition, status: ILike(`%${search}%`) },
+          { ...whereCondition, priority: ILike(`%${search}%`) },
+        ];
+      }
       
       const [tasks, total] = await this.taskRepository.findAndCount({
         where: whereCondition,

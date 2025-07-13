@@ -20,6 +20,7 @@ export class TaskTable implements OnInit, OnChanges {
   totalPages: number = 0;
   loading: boolean = false;
   error: string = '';
+  searchQuery: string = '';
 
   // Make enums available in template
   TaskCategory = TaskCategory;
@@ -47,7 +48,8 @@ export class TaskTable implements OnInit, OnChanges {
     
     this.taskService.getTasks({
       page: this.currentPage,
-      limit: this.pageSize
+      limit: this.pageSize,
+      search: this.searchQuery ? this.searchQuery : undefined
     }).subscribe({
       next: (response: TaskResponse) => {
         this.tasks = response.tasks;
@@ -62,6 +64,11 @@ export class TaskTable implements OnInit, OnChanges {
         this.loading = false;
       }
     });
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.loadTasks();
   }
 
   onPageChange(page: number) {

@@ -1,4 +1,4 @@
-import { IsOptional, IsNumberString } from 'class-validator';
+import { IsOptional, IsNumberString, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PaginationDto {
@@ -9,4 +9,8 @@ export class PaginationDto {
     @IsOptional()
     @Type(() => Number)
     limit?: number;
+
+    @IsOptional()
+    @IsString()
+    search?: string;
 }
