@@ -16,24 +16,28 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.tasksService.findAll(paginationDto);
   }
 
+  @UseGuards(JwtAuthGuard)
 @Get(':id')
 findOne(@Param('id') id: string) {
   return this.tasksService.findOne(id);
 }
 
 
+@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
     return this.tasksService.update(id, updateTaskDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+    return this.tasksService.remove(id);
   }
 }

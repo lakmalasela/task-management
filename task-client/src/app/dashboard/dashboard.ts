@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class Dashboard {
   @ViewChild('taskModal') taskModal!: TemplateRef<any>;
   modalRef?: NgbModalRef;
   showTasks = false;
+  refreshTrigger: number = 0;
   tasks: TaskItem[] = [
     {
       id: '1',
@@ -59,10 +61,34 @@ export class Dashboard {
     }));
   }
 
-  constructor(private modalService: NgbModal, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    private modalService: NgbModal, 
+    private router: Router, 
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private taskService: TaskService
+  ) {}
 
   toggleTasks() {
     this.showTasks = !this.showTasks;
+    if (this.showTasks) {
+      this.loadTasks();
+    }
+  }
+
+  loadTasks() {
+    this.taskService.getTasks().subscribe({
+      next: (response) => {
+        this.tasks = response.tasks;
+      },
+      error: (error) => {
+        console.error('Error loading tasks:', error);
+        alert('Failed to load tasks. Please try again.');
+      }
+    });
+  }
+
+  refreshTaskTable() {
+    this.refreshTrigger++;
   }
 
   openCreateModal() {
@@ -91,13 +117,37 @@ export class Dashboard {
   }
 
   submitTask() {
-    if (this.editingTask) {
-      Object.assign(this.editingTask, this.form);
-      this.editingTask = null;
+    if (this.editingTask && this.editingTask.id) {
+      // Update existing task
+      this.taskService.updateTask(this.editingTask.id, this.form).subscribe({
+        next: (updatedTask) => {
+          const index = this.tasks.findIndex(t => t.id === this.editingTask?.id);
+          if (index !== -1) {
+            this.tasks[index] = updatedTask;
+          }
+          this.editingTask = null;
+          this.closeModal();
+          this.refreshTaskTable();
+        },
+        error: (error) => {
+          console.error('Error updating task:', error);
+          alert('Failed to update task. Please try again.');
+        }
+      });
     } else {
-      this.tasks.push({ ...this.form, id: Math.random().toString(36).slice(2) });
+      // Create new task
+      this.taskService.createTask(this.form).subscribe({
+        next: (newTask) => {
+          this.tasks.push(newTask);
+          this.closeModal();
+          this.refreshTaskTable();
+        },
+        error: (error) => {
+          console.error('Error creating task:', error);
+          alert('Failed to create task. Please try again.');
+        }
+      });
     }
-    this.closeModal();
   }
 
   editTask(task: TaskItem) {
@@ -107,10 +157,20 @@ export class Dashboard {
   }
 
   deleteTask(task: TaskItem) {
-    this.tasks = this.tasks.filter(t => t !== task);
-    if (this.editingTask === task) {
-      this.editingTask = null;
-      this.form = this.getEmptyTask();
+    if (task.id) {
+      this.taskService.deleteTask(task.id).subscribe({
+        next: () => {
+          this.tasks = this.tasks.filter(t => t !== task);
+          if (this.editingTask === task) {
+            this.editingTask = null;
+            this.form = this.getEmptyTask();
+          }
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+          alert('Failed to delete task. Please try again.');
+        }
+      });
     }
   }
 

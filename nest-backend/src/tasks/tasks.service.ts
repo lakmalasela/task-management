@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 import { Task } from './entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -48,7 +48,8 @@ export class TasksService {
       const [tasks, total] = await this.taskRepository.findAndCount({
         skip,
         take: limit,
-        order: { created_at: 'DESC' }
+        order: { created_at: 'DESC' },
+        // where: { status: Not(Status.DELETED) }
       });
 
       const totalPages = Math.ceil(total / limit);
@@ -94,7 +95,7 @@ export class TasksService {
       if (updateTaskDto.title !== undefined) task.title = updateTaskDto.title;
       if (updateTaskDto.description !== undefined) task.description = updateTaskDto.description;
       if (updateTaskDto.dueDate !== undefined) task.dueDate = updateTaskDto.dueDate;
-      if (updateTaskDto.isCompleted !== undefined) task.isCompleted = updateTaskDto.isCompleted;
+      // if (updateTaskDto.isCompleted !== undefined) task.isCompleted = updateTaskDto.isCompleted;
       return await this.taskRepository.save(task);
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
@@ -102,13 +103,12 @@ export class TasksService {
     }
   }
 
-  //remove the task
-  async remove(id: number): Promise<void> {
+  //soft delete the task
+  async remove(id: string): Promise<Task> {
     try {
-      const result = await this.taskRepository.delete(id);
-      if (result.affected === 0) {
-        throw new NotFoundException(`Task with id ${id} not found`);
-      }
+      const task = await this.findOne(id);
+      task.status = Status.DELETED;
+      return await this.taskRepository.save(task);
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Failed to delete task');

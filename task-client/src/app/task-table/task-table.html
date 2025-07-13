@@ -26,6 +26,7 @@
           <th>Category</th>
           <th>Status</th>
           <th>Completed</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +43,26 @@
           </td>
           <td>
             <input class="form-check-input" type="checkbox" [checked]="task.isCompleted" disabled />
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm" role="group">
+              <button 
+                type="button" 
+                class="btn btn-outline-primary" 
+                (click)="onEditTask(task)"
+                [disabled]="task.status === TaskStatus.Deleted"
+                title="Edit task">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-outline-danger" 
+                (click)="onDeleteTask(task)"
+                [disabled]="task.status === TaskStatus.Deleted"
+                title="Delete task">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>

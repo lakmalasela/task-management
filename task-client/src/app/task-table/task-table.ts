@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TaskItem } from '../task/task';
 import { TaskCategory, TaskStatus, TaskPriority } from '../enums';
 import { TaskService, TaskResponse } from '../task.service';
@@ -9,7 +9,9 @@ import { TaskService, TaskResponse } from '../task.service';
   templateUrl: './task-table.html',
   styleUrl: './task-table.scss'
 })
-export class TaskTable implements OnInit {
+export class TaskTable implements OnInit, OnChanges {
+  @Input() refreshTrigger: number = 0;
+  
   tasks: TaskItem[] = [];
   currentPage: number = 1;
   pageSize: number = 5;
@@ -30,6 +32,12 @@ export class TaskTable implements OnInit {
 
   ngOnInit() {
     this.loadTasks();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['refreshTrigger'] && !changes['refreshTrigger'].firstChange) {
+      this.loadTasks();
+    }
   }
 
   loadTasks() {
@@ -101,8 +109,41 @@ export class TaskTable implements OnInit {
         return 'badge bg-info';
       case TaskStatus.Completed:
         return 'badge bg-success';
+      case TaskStatus.Deleted:
+        return 'badge bg-danger';
       default:
         return 'badge bg-secondary';
+    }
+  }
+
+  onEditTask(task: TaskItem) {
+    // Emit event to parent component to handle edit
+    // You can implement this based on your routing or modal approach
+    console.log('Edit task:', task);
+    // Example: this.router.navigate(['/task/edit', task.id]);
+  }
+
+  onDeleteTask(task: TaskItem) {
+    if (!task.id) {
+      console.error('Task ID is missing');
+      return;
+    }
+    
+    if (confirm(`Are you sure you want to delete the task "${task.title}"?`)) {
+      this.loading = true;
+      this.taskService.deleteTask(task.id).subscribe({
+        next: () => {
+          console.log('Task deleted successfully');
+          // Update the task status to Deleted instead of removing it
+          task.status = TaskStatus.Deleted;
+          this.loading = false;
+        },
+        error: (error: any) => {
+          console.error('Error deleting task:', error);
+          this.error = 'Failed to delete task. Please try again.';
+          this.loading = false;
+        }
+      });
     }
   }
 } 

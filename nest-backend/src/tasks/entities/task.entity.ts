@@ -30,8 +30,8 @@ import {
     @Column()
     dueDate:Date;
 
-    @Column()
-    isCompleted: Boolean;
+    // @Column()
+    // isCompleted: Boolean;
 
     @CreateDateColumn()  
     created_at: Date;
