@@ -16,7 +16,7 @@ import { TaskService } from '../task.service';
 export class Dashboard {
   @ViewChild('taskModal') taskModal!: TemplateRef<any>;
   modalRef?: NgbModalRef;
-  showTasks = false;
+  showTasks = true;
   refreshTrigger: number = 0;
   tasks: TaskItem[] = [
     // {
@@ -34,6 +34,24 @@ export class Dashboard {
   editingTask: TaskItem | null = null;
   form: TaskItem = this.getEmptyTask();
   
+  // Calendar properties and methods
+  calendarDate: any = null; // NgbDateStruct
+
+  isDisabled = () => false; // No disabled days
+
+  onCalendarNavigate(event: any) {}
+
+  getDayClass(date: any): string {
+    // date: {year, month, day}
+    const dayStr = `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`;
+    // Find tasks for this day
+    const completed = this.tasks.some(t => t.dueDate === dayStr && t.status === this.TaskStatus.Completed);
+    const due = this.tasks.some(t => t.dueDate === dayStr && t.status !== this.TaskStatus.Completed);
+    if (completed) return 'bg-success text-white rounded-circle';
+    if (due) return 'bg-danger text-white rounded-circle';
+    return '';
+  }
+
   // Make enums available in template
   TaskCategory = TaskCategory;
   TaskStatus = TaskStatus;

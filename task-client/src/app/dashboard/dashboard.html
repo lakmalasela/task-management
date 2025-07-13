@@ -42,7 +42,7 @@
   <div *ngIf="showTasks" class="mt-5">
     <h2 class="text-primary mb-4">Your Tasks</h2>
     <button class="btn btn-primary mb-3" (click)="openCreateModal()">Create Task</button>
-    <app-task-table [refreshTrigger]="refreshTrigger"></app-task-table>
+    <app-task-table [refreshTrigger]="refreshTrigger" (editTask)="editTask($event)"></app-task-table>
 
     <!-- ng-bootstrap Modal for Create/Edit Task -->
     <ng-template #taskModal>

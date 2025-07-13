@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { TaskItem } from '../task/task';
 import { TaskCategory, TaskStatus, TaskPriority } from '../enums';
 import { TaskService, TaskResponse } from '../task.service';
@@ -11,6 +11,7 @@ import { TaskService, TaskResponse } from '../task.service';
 })
 export class TaskTable implements OnInit, OnChanges {
   @Input() refreshTrigger: number = 0;
+  @Output() editTask = new EventEmitter<TaskItem>();
   
   tasks: TaskItem[] = [];
   currentPage: number = 1;
@@ -117,10 +118,7 @@ export class TaskTable implements OnInit, OnChanges {
   }
 
   onEditTask(task: TaskItem) {
-    // Emit event to parent component to handle edit
-    // You can implement this based on your routing or modal approach
-    console.log('Edit task:', task);
-    // Example: this.router.navigate(['/task/edit', task.id]);
+    this.editTask.emit(task);
   }
 
   onDeleteTask(task: TaskItem) {

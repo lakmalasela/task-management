@@ -90,7 +90,7 @@ export class TaskService {
    * @returns Observable with updated task data
    */
   updateTask(taskId: string, taskData: Partial<TaskItem>): Observable<TaskItem> {
-    return this.http.put<TaskItem>(`${this.apiUrl}/tasks/${taskId}`, taskData).pipe(
+    return this.http.patch<TaskItem>(`${this.apiUrl}/tasks/${taskId}`, taskData).pipe(
       catchError((err: any) => {
         console.error('Update task error:', err);
         return throwError(() => new Error('Failed to update task'));
