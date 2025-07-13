@@ -62,6 +62,12 @@ export class Dashboard {
   taskStatuses = Object.values(TaskStatus).map(status => ({ value: status, label: status }));
   taskPriorities = Object.values(TaskPriority).map(priority => ({ value: priority, label: priority }));
 
+  dueSoonTasks: TaskItem[] = [];
+
+  ngOnInit() {
+    this.loadTasks();
+  }
+
   constructor(
     private modalService: NgbModal, 
     private router: Router, 
@@ -80,11 +86,23 @@ export class Dashboard {
     this.taskService.getTasks().subscribe({
       next: (response) => {
         this.tasks = response.tasks;
+        this.checkDueSoonTasks();
       },
       error: (error) => {
         console.error('Error loading tasks:', error);
         alert('Failed to load tasks. Please try again.');
       }
+    });
+  }
+
+  checkDueSoonTasks() {
+    const now = new Date();
+    const twoDaysFromNow = new Date(now);
+    twoDaysFromNow.setDate(now.getDate() + 2);
+    this.dueSoonTasks = this.tasks.filter(task => {
+      if (!task.dueDate || task.status === this.TaskStatus.Completed) return false;
+      const due = new Date(task.dueDate);
+      return due >= now && due <= twoDaysFromNow;
     });
   }
 

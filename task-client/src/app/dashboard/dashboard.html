@@ -8,6 +8,17 @@
   </div>
 </nav>
 <div class="container my-5 p-4 bg-white rounded shadow">
+  <div *ngIf="dueSoonTasks.length > 0" class="alert alert-warning d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>
+      <strong>Reminder:</strong> The following tasks are due within 2 days:
+      <ul class="mb-0">
+        <li *ngFor="let task of dueSoonTasks">
+          <strong>{{ task.title }}</strong> (Due: {{ task.dueDate | date:'yyyy-MM-dd hh:mm a' }})
+        </li>
+      </ul>
+    </div>
+  </div>
   <h1 class="text-center mb-5 fw-bold">Welcome to your Dashboard!</h1>
   <div class="row g-4 justify-content-center mb-4">
     <div class="col-md-4">
