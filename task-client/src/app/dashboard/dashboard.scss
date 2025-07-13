@@ -79,6 +79,75 @@
   border-bottom-left-radius: 1.2rem;
   border-bottom-right-radius: 1.2rem;
 }
+.dashboard-sections {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.calendar-section {
+  background: none;
+  margin-bottom: 2rem;
+}
+.calendar-wrapper {
+  min-width: 320px;
+  max-width: 380px;
+  margin: 0 auto;
+  border: 1px solid #e0c3fc;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.08);
+}
+.calendar-legend {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  gap: 2.5rem;
+  margin-top: 0.5rem;
+}
+.legend-dot {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  margin-right: 0.4em;
+  vertical-align: middle;
+}
+.tasks-section {
+  margin-top: 1.5rem;
+}
+.task-dot {
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  background: #7702ff;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 0.1em;
+}
+.calendar-tasks-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.calendar-section, .tasks-section {
+  min-width: 340px;
+  max-width: 420px;
+}
+@media (max-width: 900px) {
+  .calendar-tasks-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .calendar-section, .tasks-section {
+    min-width: 220px;
+    max-width: 100%;
+  }
+}
 @media (max-width: 800px) {
   .dashboard-cards {
     flex-direction: column;
@@ -87,5 +156,14 @@
   }
   .container {
     padding: 1.2rem 0.5rem;
+  }
+  .calendar-wrapper {
+    min-width: 220px;
+    max-width: 100%;
+    padding: 0.5rem;
+  }
+  .dashboard-sections {
+    max-width: 100%;
+    padding: 0 0.5rem;
   }
 }

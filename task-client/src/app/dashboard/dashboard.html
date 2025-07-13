@@ -20,31 +20,50 @@
     </div>
   </div>
   <h1 class="text-center mb-5 fw-bold">Welcome to your Dashboard!</h1>
-  <div class="row g-4 justify-content-center mb-4">
-    <div class="col-md-4">
-      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
-        <div class="card-body text-center">
-          <h2 class="card-title">Profile</h2>
-          <p class="card-text">View and edit your profile information.</p>
-          <button class="btn btn-light fw-bold" (click)="onProfileClick()">👤 Go to Profile</button>
+  <div class="dashboard-sections d-flex flex-column align-items-center">
+    <div class="calendar-tasks-row d-flex flex-row justify-content-center align-items-start w-100 flex-wrap">
+      <div class="calendar-section mb-4 flex-grow-1 d-flex flex-column align-items-center">
+        <h3 class="text-primary mb-3">Task Calendar</h3>
+        <div class="calendar-wrapper bg-white shadow-sm rounded p-3 mb-2">
+          <ngb-datepicker 
+            [(ngModel)]="calendarDate"
+            [dayTemplate]="t"
+            [displayMonths]="1"
+            [outsideDays]="'visible'"
+            [showWeekNumbers]="false"
+            (navigate)="onCalendarNavigate($event)">
+          </ngb-datepicker>
+          <ng-template #t let-date let-focused="focused">
+            <span
+              class="custom-day d-inline-block w-100 text-center"
+              [ngClass]="getDayClass(date)"
+              [ngbTooltip]="getTasksForDateTooltip(date)"
+              container="body"
+              placement="top"
+              *ngIf="getTasksForDate(date).length > 0; else noTask"
+            >
+              {{ date.day }}
+              <span class="task-dot ms-1" *ngIf="getTasksForDate(date).length > 0"></span>
+            </span>
+            <ng-template #noTask>
+              <span class="custom-day d-inline-block w-100 text-center">{{ date.day }}</span>
+            </ng-template>
+          </ng-template>
+        </div>
+        <div class="calendar-legend d-flex gap-3 align-items-center mt-2">
+          <span class="legend-dot bg-danger"></span> <span>Due Task</span>
+          <span class="legend-dot bg-success"></span> <span>Completed Task</span>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
-        <div class="card-body text-center">
-          <h2 class="card-title">Settings</h2>
-          <p class="card-text">Manage your account settings and preferences.</p>
-          <button class="btn btn-light fw-bold" (click)="onSettingsClick()">⚙️ Go to Settings</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
-        <div class="card-body text-center">
-          <h2 class="card-title">Tasks</h2>
-          <p class="card-text">View, add, update, and delete your tasks.</p>
-          <button class="btn btn-light fw-bold" (click)="toggleTasks()">📝 View Tasks</button>
+      <div class="tasks-section flex-grow-1 d-flex flex-column align-items-center justify-content-center mb-4">
+        <div class="col-md-10">
+          <div class="card text-white bg-gradient" style="background: linear-gradient(135deg, #f0060b 0%, #ff41f8 50%, #7702ff 100%);">
+            <div class="card-body text-center">
+              <h2 class="card-title">Tasks</h2>
+              <p class="card-text">View, add, update, and delete your tasks.</p>
+              <button class="btn btn-light fw-bold" (click)="toggleTasks()">📝 View Tasks</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
