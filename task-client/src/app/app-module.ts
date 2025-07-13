@@ -11,6 +11,7 @@ import { Signup } from './signup/signup';
 import { Dashboard } from './dashboard/dashboard';
 import { AuthInterceptor } from './auth.interceptor';
 import { Task } from './task/task';
+import { TaskTable } from './task-table/task-table';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { Task } from './task/task';
     Login,
     Signup,
     Dashboard,
-    Task
+    Task,
+    TaskTable
   ],
   imports: [
     BrowserModule,

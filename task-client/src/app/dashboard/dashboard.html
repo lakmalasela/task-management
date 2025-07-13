@@ -42,40 +42,7 @@
   <div *ngIf="showTasks" class="mt-5">
     <h2 class="text-primary mb-4">Your Tasks</h2>
     <button class="btn btn-primary mb-3" (click)="openCreateModal()">Create Task</button>
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle">
-        <thead class="table-primary">
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Completed</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks">
-            <td>{{ task.title }}</td>
-            <td>{{ task.description }}</td>
-            <td>{{ task.dueDate }}</td>
-            <td>{{ task.priority }}</td>
-            <td>{{ task.category }}</td>
-            <td>{{ task.status }}</td>
-            <td>
-              <input class="form-check-input" type="checkbox" [checked]="task.isCompleted" disabled />
-            </td>
-            <td>
-              <button class="btn btn-sm btn-outline-primary me-2" (click)="editTask(task)">Edit</button>
-              <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div *ngIf="!tasks.length" class="text-center text-muted mt-4">No tasks yet. Add your first task!</div>
+    <app-task-table></app-task-table>
 
     <!-- ng-bootstrap Modal for Create/Edit Task -->
     <ng-template #taskModal>
@@ -100,29 +67,22 @@
           <div class="col-12 col-md-6">
             <label for="modal-priority" class="form-label">Priority</label>
             <select id="modal-priority" name="priority" [(ngModel)]="form.priority" class="form-select">
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
+              <option *ngFor="let priority of getTaskPriorities()" [value]="priority.value">{{ priority.label }}</option>
             </select>
           </div>
           <div class="col-12 col-md-6">
             <label for="modal-category" class="form-label">Task Category</label>
-            <input id="modal-category" name="category" [(ngModel)]="form.category" class="form-control" />
+            <select id="modal-category" name="category" [(ngModel)]="form.category" class="form-select">
+              <option *ngFor="let category of getTaskCategories()" [value]="category.value">{{ category.label }}</option>
+            </select>
           </div>
           <div class="col-12 col-md-6">
             <label for="modal-status" class="form-label">Status</label>
             <select id="modal-status" name="status" [(ngModel)]="form.status" class="form-select">
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              <option *ngFor="let status of getTaskStatuses()" [value]="status.value">{{ status.label }}</option>
             </select>
           </div>
-          <div class="col-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="isCompleted" [(ngModel)]="form.isCompleted" id="modal-isCompleted" />
-              <label class="form-check-label" for="modal-isCompleted">Completed</label>
-            </div>
-          </div>
+          
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success" [disabled]="!taskForm.form.valid">{{ editingTask ? 'Update' : 'Create' }} Task</button>

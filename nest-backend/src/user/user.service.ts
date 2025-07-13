@@ -59,6 +59,7 @@ async patchUser(id: string, dto: UpdateUserDto): Promise<User> {
   findByUsername(username: string) {
     return this.userRepo.findOne({ where: { username } });
   }
+  
 
   //User List
   findAll(): Promise<User[]> {

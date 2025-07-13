@@ -8,6 +8,7 @@ import { Priority } from '../shared/enum/priority.enum';
 import { Category } from '../shared/enum/category.enum';
 import { Status } from '../shared/enum/status.enum';
 import { User } from '../user/user.entity';
+import { PaginationDto } from '../pagination/dto/pagination.dto';
 
 @Injectable()
 export class TasksService {
@@ -39,9 +40,26 @@ export class TasksService {
   }
 
   //all tasks
-  async findAll(): Promise<Task[]> {
+  async findAll(paginationDto?: PaginationDto): Promise<{ tasks: Task[]; total: number; page: number; limit: number; totalPages: number }> {
     try {
-      return await this.taskRepository.find();
+      const { page = 1, limit = 10 } = paginationDto || {};
+      const skip = (page - 1) * limit;
+      
+      const [tasks, total] = await this.taskRepository.findAndCount({
+        skip,
+        take: limit,
+        order: { created_at: 'DESC' }
+      });
+
+      const totalPages = Math.ceil(total / limit);
+
+      return {
+        tasks,
+        total,
+        page,
+        limit,
+        totalPages
+      };
     } catch (error) {
       throw new InternalServerErrorException('Failed to fetch tasks');
     }

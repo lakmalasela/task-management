@@ -1,5 +1,6 @@
 import { Component, TemplateRef, ViewChild, Inject } from '@angular/core';
 import { TaskItem } from '../task/task';
+import { TaskCategory, TaskStatus, TaskPriority } from '../enums';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -22,14 +23,41 @@ export class Dashboard {
       description: 'Go to the gym',
       dueDate: '2025-06-08',
       isCompleted: false,
-      priority: 'High',
-      category: 'Personal',
-      status: 'Pending',
+      priority: TaskPriority.HIGH,
+      category: TaskCategory.Personal,
+      status: TaskStatus.Pending,
       userId: '2c066348-f04f-49f2-8175-27248ad463df'
     }
   ];
   editingTask: TaskItem | null = null;
   form: TaskItem = this.getEmptyTask();
+  
+  // Make enums available in template
+  TaskCategory = TaskCategory;
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+
+  // Get enum values as arrays for use in templates
+  getTaskCategories(): { value: TaskCategory, label: string }[] {
+    return Object.values(TaskCategory).map(category => ({
+      value: category,
+      label: category
+    }));
+  }
+
+  getTaskStatuses(): { value: TaskStatus, label: string }[] {
+    return Object.values(TaskStatus).map(status => ({
+      value: status,
+      label: status
+    }));
+  }
+
+  getTaskPriorities(): { value: TaskPriority, label: string }[] {
+    return Object.values(TaskPriority).map(priority => ({
+      value: priority,
+      label: priority
+    }));
+  }
 
   constructor(private modalService: NgbModal, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -55,9 +83,9 @@ export class Dashboard {
       description: '',
       dueDate: '',
       isCompleted: false,
-      priority: 'Medium',
-      category: '',
-      status: 'Pending',
+      priority: TaskPriority.MEDIUM,
+      category: TaskCategory.Personal,
+      status: TaskStatus.Pending,
       userId: '2c066348-f04f-49f2-8175-27248ad463df',
     };
   }

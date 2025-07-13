@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TaskCategory, TaskStatus, TaskPriority } from '../enums';
 
 export interface TaskItem {
   id?: string;
@@ -6,9 +7,9 @@ export interface TaskItem {
   description: string;
   dueDate: string;
   isCompleted: boolean;
-  priority: string;
-  category: string;
-  status: string;
+  priority: TaskPriority;
+  category: TaskCategory;
+  status: TaskStatus;
   userId: string;
 }
 
@@ -22,6 +23,33 @@ export class Task {
   tasks: TaskItem[] = [];
   editingTask: TaskItem | null = null;
   form: TaskItem = this.getEmptyTask();
+  
+  // Make enums available in template
+  TaskCategory = TaskCategory;
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+
+  // Get enum values as arrays for use in templates
+  getTaskCategories(): { value: TaskCategory, label: string }[] {
+    return Object.values(TaskCategory).map(category => ({
+      value: category,
+      label: category
+    }));
+  }
+
+  getTaskStatuses(): { value: TaskStatus, label: string }[] {
+    return Object.values(TaskStatus).map(status => ({
+      value: status,
+      label: status
+    }));
+  }
+
+  getTaskPriorities(): { value: TaskPriority, label: string }[] {
+    return Object.values(TaskPriority).map(priority => ({
+      value: priority,
+      label: priority
+    }));
+  }
 
   getEmptyTask(): TaskItem {
     return {
@@ -29,9 +57,9 @@ export class Task {
       description: '',
       dueDate: '',
       isCompleted: false,
-      priority: 'Medium',
-      category: '',
-      status: 'Pending',
+      priority: TaskPriority.MEDIUM,
+      category: TaskCategory.Personal,
+      status: TaskStatus.Pending,
       userId: '2c066348-f04f-49f2-8175-27248ad463df',
     };
   }
