@@ -88,29 +88,91 @@
   background: none;
   margin-bottom: 2rem;
 }
+// Calendar container
 .calendar-wrapper {
-  min-width: 320px;
-  max-width: 380px;
-  margin: 0 auto;
-  border: 1px solid #e0c3fc;
-  box-shadow: 0 2px 12px rgba(124,58,237,0.08);
+  border: 1.5px solid #e0e0ff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(80, 80, 255, 0.08);
+  padding: 24px 20px 16px 20px;
+  margin-bottom: 12px;
+  background: #fff;
 }
-.calendar-legend {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+
+// Calendar title
+.calendar-section h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2574fa;
+  margin-bottom: 1rem;
+}
+
+// Pill-shaped day styling
+.custom-day {
+  display: inline-flex;
   align-items: center;
-  font-size: 1rem;
-  gap: 2.5rem;
-  margin-top: 0.5rem;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 2px auto;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  position: relative;
 }
+
+.custom-day.due-task {
+  background: #f44336;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(244, 67, 54, 0.15);
+}
+
+.custom-day.completed-task {
+  background: #2e7d32;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15);
+}
+
+.custom-day:not(.due-task):not(.completed-task) {
+  background: transparent;
+  color: #333;
+}
+
+// Dot indicator (optional, for extra clarity)
+.task-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #333;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+// Legend styling
+.calendar-legend {
+  font-size: 1rem;
+  margin-top: 10px;
+  gap: 18px;
+}
+
 .legend-dot {
   display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  margin-right: 0.4em;
+  margin-right: 6px;
   vertical-align: middle;
+}
+
+.legend-dot.bg-danger {
+  background: #f44336;
+}
+
+.legend-dot.bg-success {
+  background: #2e7d32;
 }
 .tasks-section {
   margin-top: 1.5rem;

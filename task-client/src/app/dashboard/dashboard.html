@@ -43,7 +43,6 @@
               *ngIf="getTasksForDate(date).length > 0; else noTask"
             >
               {{ date.day }}
-              <span class="task-dot ms-1" *ngIf="getTasksForDate(date).length > 0"></span>
             </span>
             <ng-template #noTask>
               <span class="custom-day d-inline-block w-100 text-center">{{ date.day }}</span>
