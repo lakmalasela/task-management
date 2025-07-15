@@ -36,6 +36,7 @@ A full-stack task management system built using **NestJS (Express)** for the bac
 
 ## 🗂 Project Structure
 
+(Add your project structure details here)
 
 ---
 
@@ -49,23 +50,29 @@ A full-stack task management system built using **NestJS (Express)** for the bac
 
 ---
 
-## 🚀 Backend Setup (NestJS + PostgreSQL)
+## 🚀 Setup Instructions
 
-### 1️⃣ Navigate to backend & frontend folder
+### Backend Setup (NestJS + PostgreSQL)
 
+1. Navigate to backend folder and install dependencies:
 ```bash
 cd nest-backend
 npm install
 npm run start
+```
 
-- API will be available at: http://localhost:3000
-- NestJS will automatically create tables if synchronize: true is set
+### Frontend Setup (NestJS + PostgreSQL)
 
-
-## 🚀 Front-end Setup 
+2. Navigate to frontend folder and install dependencies:
+```bash
 cd task-client
-npm isntall
+npm install
 ng serve
-
+```
 - App will run at: http://localhost:4200
+
+🗃 PostgreSQL Setup
+1. Install PostgreSQL and create a database (e.g., task_db)
+2. Configure your backend .env with the correct DB credentials
+3. Use a DB tool like DBeaver to explore tables if needed
 
