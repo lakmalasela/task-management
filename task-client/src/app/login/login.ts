@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Auth } from '../auth';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class Login {
   loading = false;
   private loginSub?: Subscription;
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private auth: Auth, private router: Router, private toastr: ToastrService) {}
 
   onSubmit() {
     this.error = null;
@@ -27,11 +28,13 @@ export class Login {
     this.loginSub = this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.loading = false;
+        this.toastr.success('Login successful!', 'Success');
         this.router.navigate(['/dashboard']);
       },
       error: (e) => {
         this.error = e.message || 'Login failed';
         this.loading = false;
+        this.toastr.error(this.error || 'Login failed', 'Login Failed');
       }
     });
   }
