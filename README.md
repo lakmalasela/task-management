@@ -51,7 +51,7 @@ A full-stack task management system built using **NestJS (Express)** for the bac
 
 ## 🚀 Backend Setup (NestJS + PostgreSQL)
 
-### 1️⃣ Navigate to backend folder
+### 1️⃣ Navigate to backend & frontend folder
 
 ```bash
 cd nest-backend
