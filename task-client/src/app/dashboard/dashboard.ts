@@ -66,6 +66,10 @@ export class Dashboard {
   dueSoonTasks: TaskItem[] = [];
 
   ngOnInit() {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadTasks();
   }
 
