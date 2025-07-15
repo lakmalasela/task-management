@@ -25,6 +25,8 @@
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 .card-text {
   font-size: 1.05rem;
@@ -228,4 +230,7 @@
     max-width: 100%;
     padding: 0 0.5rem;
   }
+}
+.text-task{
+  color: #0d6efd !important;
 }
