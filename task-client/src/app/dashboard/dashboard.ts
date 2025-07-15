@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { TaskService } from '../task.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -72,7 +73,8 @@ export class Dashboard {
     private modalService: NgbModal, 
     private router: Router, 
     @Inject(PLATFORM_ID) private platformId: Object,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private toastr: ToastrService
   ) {}
 
   toggleTasks() {
@@ -90,7 +92,7 @@ export class Dashboard {
       },
       error: (error) => {
         console.error('Error loading tasks:', error);
-        alert('Failed to load tasks. Please try again.');
+        this.toastr.error('Failed to load tasks. Please try again.', 'Error');
       }
     });
   }
@@ -147,10 +149,11 @@ export class Dashboard {
           this.editingTask = null;
           this.closeModal();
           this.refreshTaskTable();
+          this.toastr.success('Task updated successfully!', 'Success');
         },
         error: (error) => {
           console.error('Error updating task:', error);
-          alert('Failed to update task. Please try again.');
+          this.toastr.error('Failed to update task. Please try again.', 'Error');
         }
       });
     } else {
@@ -160,10 +163,11 @@ export class Dashboard {
           this.tasks.push(newTask);
           this.closeModal();
           this.refreshTaskTable();
+          this.toastr.success('Task added successfully!', 'Success');
         },
         error: (error) => {
           console.error('Error creating task:', error);
-          alert('Failed to create task. Please try again.');
+          this.toastr.error('Failed to create task. Please try again.', 'Error');
         }
       });
     }
@@ -189,10 +193,11 @@ export class Dashboard {
             this.editingTask = null;
             this.form = this.getEmptyTask();
           }
+          this.toastr.success('Task deleted successfully!', 'Success');
         },
         error: (error) => {
           console.error('Error deleting task:', error);
-          alert('Failed to delete task. Please try again.');
+          this.toastr.error('Failed to delete task. Please try again.', 'Error');
         }
       });
     }
